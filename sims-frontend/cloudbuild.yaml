@@ -1,4 +1,6 @@
 steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['cd', 'sims-frontend']
   # Step 1: Build the Docker image
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'europe-west4-docker.pkg.dev/$PROJECT_ID/sims-frontend:$COMMIT_SHA', '.']
