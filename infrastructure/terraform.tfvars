@@ -1,0 +1,6 @@
+project            = "szr-hackathon-sbx-5242"
+region             = "europe-west4"
+instance_name      = "SIMS_database"
+database_name      = "SIMS"
+database_user      = "simsdbuser"
+database_password  = "makalaka"
