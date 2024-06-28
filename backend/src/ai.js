@@ -1,5 +1,6 @@
 const { PredictionServiceClient } = require('@google-cloud/aiplatform').v1;
 const mysql = require('mysql2/promise');
+require('dotenv').config()
 
 const clientOptions = {
     apiEndpoint: 'your-region-aiplatform.googleapis.com',
@@ -21,10 +22,10 @@ async function getPredictions(instances) {
 // Function to insert predictions into Cloud SQL
 async function insertPredictions(predictions) {
     const connection = await mysql.createConnection({
-      host: 'your-cloud-sql-host',
-      user: 'your-username',
-      database: 'your-database',
-      password: 'your-password',
+      host: process.env.DB_HOST || 'localhost',
+      user: process.env.DB_USER || 'DB_USER',
+      database: process.env.DB_NAME || 'default',
+      password: process.env.DB_PASS || '',
     });
   
     const insertPromises = predictions.map((result) => {
