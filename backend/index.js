@@ -30,6 +30,10 @@ app.post('/', async (req, res) => {
   }
 });
 
+app.put('/', async (req, res) => {
+  return res.send('Received a PUT HTTP method')
+})
+
 app.listen(PORT, () =>
   console.log(`Example app listening on port ${PORT}!`),
 );
