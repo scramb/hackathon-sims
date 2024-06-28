@@ -2,12 +2,12 @@ steps:
   # Step 1: Build the Docker image
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'europe-west4-docker.pkg.dev/$PROJECT_ID/sims-hackathon/backend:$COMMIT_SHA', '.']
-    dir: sims-frontend
+    dir: backend
 
   # Step 2: Push the Docker image to Google Container Registry
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'europe-west4-docker.pkg.dev/$PROJECT_ID/sims-hackathon/backend:$COMMIT_SHA']
-    dir: sims-frontend
+    dir: backend
 
 images:
   - 'europe-west4-docker.pkg.dev/$PROJECT_ID/sims-hackathon/backend:$COMMIT_SHA'
