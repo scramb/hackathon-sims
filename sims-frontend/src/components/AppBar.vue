@@ -4,6 +4,6 @@
     <v-app-bar-nav-icon></v-app-bar-nav-icon>
   </template>
 
-  <v-app-bar-title>Application Bar</v-app-bar-title>
+  <v-app-bar-title>Smart Information Management Service</v-app-bar-title>
 </v-app-bar>
 </template>
