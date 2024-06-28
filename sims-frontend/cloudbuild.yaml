@@ -9,6 +9,20 @@ steps:
     args: ['push', 'europe-west4-docker.pkg.dev/$PROJECT_ID/sims-hackathon/frontend:$COMMIT_SHA']
     dir: sims-frontend
 
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'gcloud'
+    args:
+      - 'run'
+      - 'deploy'
+      - 'frontend'  # Replace with your Cloud Run service name
+      - '--image'
+      - 'europe-west4-docker.pkg.dev/$PROJECT_ID/sims-hackathon/frontend:$COMMIT_SHA'
+      - '--region'
+      - 'europe-west4'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+
 images:
   - 'europe-west4-docker.pkg.dev/$PROJECT_ID/sims-hackathon/frontend:$COMMIT_SHA'
 
