@@ -1,6 +1,5 @@
 steps:
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    id: 'retrieve-secret'
     entrypoint: 'gcloud'
     args:
       - 'secrets' 
