@@ -46,4 +46,4 @@ substitutions:
 
 secrets:
   secretEnv:
-    SERVICE_ACCOUNT_KEY: projects/$PROJECT_ID/secrets/service_account/versions/latest
+    SERVICE_ACCOUNT_KEY: 'projects/$PROJECT_ID/secrets/service_account/versions/latest'
