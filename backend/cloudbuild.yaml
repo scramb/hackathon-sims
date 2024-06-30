@@ -1,4 +1,9 @@
 steps:
+  - name: gcr.io/cloud-builders/gcloud
+    entrypoint: "bash"
+    args: ["-c", "echo $$SERVICE_ACCOUNT > backend/service_account.json"]
+    secretEnv: ["SERVICE_ACCOUNT"]
+    
   # Step 1: Build the Docker image
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'europe-west4-docker.pkg.dev/$PROJECT_ID/sims-hackathon/backend:$COMMIT_SHA', '.']
@@ -33,6 +38,7 @@ substitutions:
   _COMMIT_SHA: $COMMIT_SHA
   _PROJECT_ID: szr-hackathon-sbx-5242
 
-secrets:
-  - secretEnv:
-      SERVICE_ACCOUNT_KEY: 'projects/$PROJECT_ID/secrets/service_account/versions/latest'
+availableSecrets:
+  secretManager:
+  - versionName: projects/$PROJECT_ID/secrets/service_account/versions/latest
+    env: 'SERVICE_ACCOUNT'
