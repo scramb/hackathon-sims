@@ -1,13 +1,16 @@
 const express = require('express');
 const { getPredictions } = require('./src/ai.js')
+const { getData } = require('./src/database.js')
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
-app.get('/', (req, res) => {
-  return res.send('Received a GET HTTP method');
+app.get('/', async (req, res) => {
+  const data = await getData()
+
+  return res.send(data);
 });
 
 app.post('/', async (req, res) => {

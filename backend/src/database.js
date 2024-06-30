@@ -1,21 +1,16 @@
 // Import the Google Cloud client library
 const { BigQuery } = require('@google-cloud/bigquery');
 
-// Create a client
+const getData = () => new Promise(async (resolve, reject) => {
 const bigquery = new BigQuery();
 
-async function queryBigQuery() {
-  const query = `SELECT name, SUM(number) as total
-                 FROM \`bigquery-public-data.usa_names.usa_1910_2013\`
-                 WHERE state = 'TX'
-                 GROUP BY name
-                 ORDER BY total DESC
-                 LIMIT 10`;
+  const query = `SELECT *
+                 FROM \`szr-hackathon-sbx-5242.dataset_test.plant_updates\``;
 
   // Options for the query
   const options = {
     query: query,
-    location: 'US',
+    location: 'europe-west4',
   };
 
   // Run the query as a job
@@ -25,12 +20,9 @@ async function queryBigQuery() {
   // Wait for the query to finish
   const [rows] = await job.getQueryResults();
 
-  // Print the results
-  console.log('Query Results:');
-  rows.forEach(row => console.log(row));
-}
+  resolve(rows)
+})
 
-// Call the function to query BigQuery
-queryBigQuery().catch(err => {
-  console.error('ERROR:', err);
-});
+module.exports = {
+  getData
+}
