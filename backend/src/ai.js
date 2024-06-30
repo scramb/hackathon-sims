@@ -3,7 +3,7 @@ const mysql = require('mysql2/promise');
 require('dotenv').config()
 
 const clientOptions = {
-    apiEndpoint: 'your-region-aiplatform.googleapis.com',
+    apiEndpoint: 'europe-west4-aiplatform.googleapis.com',
   };
 const predictionClient = new PredictionServiceClient(clientOptions);
   
@@ -29,7 +29,7 @@ async function insertPredictions(predictions) {
     });
   
     const insertPromises = predictions.map((result) => {
-      const sql = "INSERT INTO your_table (column1, column2, ...) VALUES (?, ?, ...)";
+      const sql = "INSERT INTO predictions (column1, column2, ) VALUES (?, ?)"
       const values = [result.field1, result.field2];  // Adjust according to your prediction output
       return connection.execute(sql, values);
     });
