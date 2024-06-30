@@ -56,6 +56,7 @@
           <p><strong>Reason:</strong> {{ selectedRow.reason }}</p>
           <p><strong>Period:</strong> {{ selectedRow.period }}</p>
           <p><strong>Remark:</strong> {{ selectedRow.remark }}</p>
+          <p><strong>Restriction:</strong> {{ selectedRow.Restriction }}</p>
         </v-card-text>
         <v-card-actions>
           <v-btn color="primary" @click="closeBottomSheet">Close</v-btn>
