@@ -6,7 +6,6 @@
       :items="serverItems"
       :items-length="totalItems"
       :loading="loading"
-      :search="search"
       item-value="name"
       @update:options="loadItems"
       @click:row="openBottomSheet"
@@ -34,13 +33,13 @@
                 <span class="text-h5">{{ formTitle }}</span>
               </v-card-title>
               <v-card-text>
-                <v-textarea label="Your E-Mail content"></v-textarea>
+                <v-textarea v-model="inputData" label="Your E-Mail content"></v-textarea>
               </v-card-text>
               <v-card-actions>
-                <v-btn color="green">
+                <v-btn color="green" @click="sendData">
                   Confirm
                 </v-btn>
-                <v-btn color="red">
+                <v-btn color="red" @click="close">
                   Cancel
                 </v-btn>
               </v-card-actions>
@@ -52,10 +51,11 @@
 
     <v-bottom-sheet v-model="bottomSheet">
       <v-card>
-        <v-card-title>{{ selectedRow.name }}</v-card-title>
+        <v-card-title>{{ selectedRow.plant }} - {{ selectedRow.update }}</v-card-title>
         <v-card-text>
-          <p><strong>Email:</strong> {{ selectedRow.email }}</p>
-          <p><strong>Phone:</strong> {{ selectedRow.phone }}</p>
+          <p><strong>Reason:</strong> {{ selectedRow.reason }}</p>
+          <p><strong>Period:</strong> {{ selectedRow.period }}</p>
+          <p><strong>Remark:</strong> {{ selectedRow.remark }}</p>
         </v-card-text>
         <v-card-actions>
           <v-btn color="primary" @click="closeBottomSheet">Close</v-btn>
@@ -67,41 +67,69 @@
 
 <script>
 
-  const FakeAPI = {
-    async fetch ({ page, itemsPerPage, sortBy }) {
-      return new Promise(resolve => {
-        fetch('http://localhost:3000')
-        .then(response => response.json())
-        .then(data => serverItems.value = data);
+  const FakeAPI = () => new Promise(resolve => {
+        fetch('http://localhost:8080')
+          .then(response => response.json())
+          .then(data => {resolve([data, data.length])});
       })
-    },
-  }
 
-
+  const SendData = (data) => new Promise((resolve, reject) => {
+    const body = JSON.stringify({ instance: data })
+    console.log(body)
+    fetch('http://localhost:8080', {
+      body,
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then(response => resolve())
+  })
 
 export default {
   data() {
     return {
       search: '',
       serverItems: [],
+      headers: [{
+        title: 'Plant',
+        key: 'plant'
+      }, {
+        title: 'Update',
+        key: 'update'
+      }, {
+        title: 'Reason',
+        key: 'reason'
+      }, {
+        title: 'Period',
+        key: 'period'
+      }, {
+        title: 'Remark',
+        key: 'remark'
+      }, {
+        title: 'Restriction',
+        key: 'Restriction'
+      }],
+      inputData: '',
       loading: true,
       totalItems: 0,
       bottomSheet: false,
       dialog: false,
       editedIndex: -1,
       editedItem: {
-        name: '',
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0,
+        plant: '',
+        update: '',
+        reason: '',
+        period: '',
+        remark: '',
+        Restriction: '',
       },
       defaultItem: {
-        name: '',
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0,
+        plant: '',
+        update: '',
+        reason: '',
+        period: '',
+        remark: '',
+        Restriction: '',
       },
     };
   },
@@ -111,9 +139,16 @@ export default {
     },
   },
   methods: {
+    sendData () {
+      console.log('data send', this.inputData)
+      SendData(this.inputData)
+      this.inputData = ''
+      this.close()
+      this.loadItems({ page: 1, itemsPerPage: 10})
+    },
     loadItems ({ page, itemsPerPage, sortBy }) {
       this.loading = true
-      FakeAPI.fetch({ page, itemsPerPage, sortBy }).then(({ items, total }) => {
+      FakeAPI().then(([items, total]) => {
         this.serverItems = items
         this.totalItems = total
         this.loading = false
@@ -134,6 +169,9 @@ export default {
         this.editedIndex = -1
       })
     },
+    forceReload() {
+      this.loadItems();
+    }
   },
   watch: {
       dialog (val) {

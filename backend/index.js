@@ -1,11 +1,14 @@
 const express = require('express');
-const { getPredictions } = require('./src/ai.js')
-const { getData } = require('./src/database.js')
+const cors = require('cors')
+const bodyParser = require('body-parser');
+const { generateContent } = require('./src/ai.js')
+const { getData, addData } = require('./src/database.js')
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(express.json());
+app.use(bodyParser.json());
+app.use(cors());
 
 app.get('/', async (req, res) => {
   const data = await getData()
@@ -14,22 +17,12 @@ app.get('/', async (req, res) => {
 });
 
 app.post('/', async (req, res) => {
-  try {
-    const instances = req.body.instances;
-    if (!instances) {
-      return res.status(400).send('Instances are required');
-    }
-
-    // Get predictions
-    const predictions = await getPredictions(instances);
-
-    // Insert predictions into Cloud SQL
-    await insertPredictions(predictions);
-
-    res.status(200).send('Predictions inserted into Cloud SQL successfully.');
-  } catch (error) {
-    console.error('Error during prediction or insertion:', error);
-    res.status(500).send('An error occurred.');
+  if(req.body && req.body.instance) {
+    const newInput = await generateContent(req.body.instance)
+    addData(newInput)
+    return res.send(`Row insert successful`)
+  } else {
+    res.status(400).send('Wrong Input')
   }
 });
 

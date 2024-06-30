@@ -1,8 +1,9 @@
 // Import the Google Cloud client library
 const { BigQuery } = require('@google-cloud/bigquery');
 
-const getData = () => new Promise(async (resolve, reject) => {
 const bigquery = new BigQuery();
+
+const getData = () => new Promise(async (resolve, reject) => {
 
   const query = `SELECT *
                  FROM \`szr-hackathon-sbx-5242.dataset_test.plant_updates\``;
@@ -23,6 +24,14 @@ const bigquery = new BigQuery();
   resolve(rows)
 })
 
+const addData = (dataSet) => new Promise(async (resolve, reject) => {
+
+  const rows = [dataSet]
+
+  await bigquery.dataset('dataset_test').table('plant_updates').insert(rows);
+})
+
 module.exports = {
-  getData
+  getData,
+  addData
 }
