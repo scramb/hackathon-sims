@@ -90,7 +90,7 @@
 <script>
 
   const FakeAPI = () => new Promise(resolve => {
-        fetch('http://localhost:8080')
+        fetch('https://backend-k235l2t6bq-ez.a.run.app')
           .then(response => response.json())
           .then(data => {resolve([data, data.length])});
       })
@@ -98,7 +98,7 @@
   const SendData = (data) => new Promise((resolve, reject) => {
     const body = JSON.stringify({ instance: data })
     console.log(body)
-    fetch('http://localhost:8080', {
+    fetch('https://backend-k235l2t6bq-ez.a.run.app', {
       body,
       method: 'POST',
       headers: {
