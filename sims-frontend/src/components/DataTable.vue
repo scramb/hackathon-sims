@@ -53,13 +53,34 @@
       <v-card>
         <v-card-title>{{ selectedRow.plant }} - {{ selectedRow.update }}</v-card-title>
         <v-card-text>
-          <p><strong>Reason:</strong> {{ selectedRow.reason }}</p>
-          <p><strong>Period:</strong> {{ selectedRow.period }}</p>
-          <p><strong>Remark:</strong> {{ selectedRow.remark }}</p>
-          <p><strong>Restriction:</strong> {{ selectedRow.Restriction }}</p>
+          <v-text-field
+            v-model="selectedRow.reason"
+            :counter="10"
+            label="Reason"
+            hide-details
+          ></v-text-field>
+          <v-text-field
+            v-model="selectedRow.period"
+            :counter="10"
+            label="Period"
+            hide-details
+          ></v-text-field>
+          <v-text-field
+            v-model="selectedRow.remark"
+            :counter="10"
+            label="Remark"
+            hide-details
+          ></v-text-field>
+          <v-text-field
+            v-model="selectedRow.Restriction"
+            :counter="10"
+            label="Restriction"
+            hide-details
+          ></v-text-field>
         </v-card-text>
         <v-card-actions>
           <v-btn color="primary" @click="closeBottomSheet">Close</v-btn>
+          <v-btn disabled color="green" @click="updateRow">Update</v-btn>
         </v-card-actions>
       </v-card>
     </v-bottom-sheet>
