@@ -32,3 +32,7 @@ options:
 substitutions:
   _COMMIT_SHA: $COMMIT_SHA
   _PROJECT_ID: szr-hackathon-sbx-5242
+
+secrets:
+  - secretEnv:
+      SERVICE_ACCOUNT_KEY: 'projects/$PROJECT_ID/secrets/service_account/versions/latest'
