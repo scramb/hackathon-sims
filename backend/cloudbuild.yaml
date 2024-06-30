@@ -1,11 +1,15 @@
 steps:
-  - name: 'gcr.io/cloud-builders/gcloud'
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     id: 'retrieve-secret'
-    entrypoint: 'sh'
+    entrypoint: 'gcloud'
     args:
-      - '-c'
-      - |
-        gcloud secrets versions access latest --secret=service-account-key > backend/service_account.json
+      - 'secrets' 
+      - 'versions'
+      - 'access'
+      - 'latest'
+      - '--secret=service-account-key'
+      - '>'
+      - 'backend/service_account.json'
 
   # Step 1: Build the Docker image
   - name: 'gcr.io/cloud-builders/docker'
