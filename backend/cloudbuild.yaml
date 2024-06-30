@@ -1,15 +1,4 @@
 steps:
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    entrypoint: 'gcloud'
-    args:
-      - 'secrets' 
-      - 'versions'
-      - 'access'
-      - 'latest'
-      - '--secret=service-account-key'
-      - '>'
-      - 'backend/service_account.json'
-
   # Step 1: Build the Docker image
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'europe-west4-docker.pkg.dev/$PROJECT_ID/sims-hackathon/backend:$COMMIT_SHA', '.']
